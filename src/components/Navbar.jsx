@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, MenuItem, MenuItems, Transition } from "@headlessui/react";
 import { BiChevronDown } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { HiMenuAlt3 } from "react-icons/hi";
@@ -47,10 +47,10 @@ function MenuList({ user, onClick }) {
           leaveFrom='transform opacity-100 scale-100'
           leaveTo='transform opacity-0 scale-95'
         >
-          <Menu.Items className='absolute z-50 right-2 mt-2 w-56 origin-top-right divide-y dividfe-gray-100 rounded-md bg-white shadow-lg focus:outline-none '>
+          <MenuItems className='absolute z-50 right-2 mt-2 w-56 origin-top-right divide-y dividfe-gray-100 rounded-md bg-white shadow-lg focus:outline-none '>
             <div className='p-1 '>
-              <Menu.Item>
-                {({ active }) => (
+              <MenuItem>
+                {( active ) => (
                   <Link
                     to={`${
                       user?.accountType ? "user-profile" : "company-profile"
@@ -69,10 +69,10 @@ function MenuList({ user, onClick }) {
                     {user?.accountType ? "User Profile" : "Company Profile"}
                   </Link>
                 )}
-              </Menu.Item>
+              </MenuItem>
 
-              <Menu.Item>
-                {({ active }) => (
+              <MenuItem>
+                {( active ) => (
                   <button
                     onClick={() => handleLogout()}
                     className={`${
@@ -88,9 +88,9 @@ function MenuList({ user, onClick }) {
                     Log Out
                   </button>
                 )}
-              </Menu.Item>
+              </MenuItem>
             </div>
-          </Menu.Items>
+          </MenuItems>
         </Transition>
       </Menu>
     </div>
