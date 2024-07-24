@@ -3,13 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { CustomButton, JobCard, Loading, TextInput } from "../components";
 import { useForm } from "react-hook-form";
-import {
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-  Transition,
-  TransitionChild,
-} from "@headlessui/react";
+import {  Dialog,  DialogPanel,  DialogTitle,  Transition,  TransitionChild } from "@headlessui/react";
 import { FiEdit3, FiPhoneCall, FiUpload } from "react-icons/fi";
 import { HiLocationMarker } from "react-icons/hi";
 import { AiOutlineMail } from "react-icons/ai";
@@ -27,6 +21,7 @@ const CompanyForm = ({ open, setOpen }) => {
     node: "onChange",
     defaultValues: { ...user?.user },
   });
+
   const dispatch = useDispatch();
   const [profileImage, setProfileImage] = useState("");
   const [uploadCv, setUploadCv] = useState("");
@@ -183,10 +178,7 @@ const CompanyProfile = () => {
   return (
     <div className="container mx-auto p-5">
       <div className="">
-        <div
-          className="w-full flex flex-col md:flex-row gap-3
-      justify-between"
-        >
+        <div className="w-full flex flex-col md:flex-row gap-3 justify-between">
           <h2 className="text-gray-600 text-xl font-semibold">
             Welcome,{info?.name}
           </h2>
