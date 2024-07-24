@@ -292,6 +292,11 @@ export const footerLinks = [
     title: "Support",
     links: ["Account", "Support Center", "Feedback", "Accessibility"],
   },
+  {
+    id: "04",
+    title: "Get In Touch",
+    links: ["+91 9987654321","support@example.com"],
+  },
 ];
 
 export const companies = [
