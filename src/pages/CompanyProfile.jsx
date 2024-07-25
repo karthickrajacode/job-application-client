@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { CustomButton, JobCard, Loading, TextInput } from "../components";
 import { useForm } from "react-hook-form";
-import {  Dialog,  DialogPanel,  DialogTitle,  Transition,  TransitionChild } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import { FiEdit3, FiPhoneCall, FiUpload } from "react-icons/fi";
 import { HiLocationMarker } from "react-icons/hi";
 import { AiOutlineMail } from "react-icons/ai";
@@ -32,7 +38,7 @@ const CompanyForm = ({ open, setOpen }) => {
 
   return (
     <>
-      <Transition appear show={opener ?? false} as={Fragment}>
+      <Transition appear show={open ?? false} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={closeModal}>
           <TransitionChild
             as={Fragment}
@@ -155,6 +161,7 @@ const CompanyForm = ({ open, setOpen }) => {
     </>
   );
 };
+
 const CompanyProfile = () => {
   const params = useParams();
   const { user } = useSelector((state) => state.user);
@@ -187,6 +194,7 @@ const CompanyProfile = () => {
             info?._id === user?.user?._id && (
               <div className="flex items-center justify-center py-5 md:py-R gap-4">
                 <CustomButton
+                  title='Edit Profile'
                   onClick={() => setOpenForm(true)}
                   iconRight={<FiEdit3 />}
                   containerStyles={`py-1.5 px-3 md:px-5 focus:outline-none bg-blue-600  hover:bg-blue-700 text-white rounded text-sm md:text-base border border-blue-600`}
