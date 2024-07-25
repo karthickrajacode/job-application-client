@@ -23,7 +23,7 @@ function MenuList({ user, onClick }) {
       <Menu as="div" className="inline-block text-left">
         <div className="flex">
           <MenuButton className="inline-flex gap-2 w-full rounded-md bg-white md:px-4 py-2 text-sm font-medium text-slate-700 hover:bg-opacity-20 ">
-            <div className="leading[80px] flex flex-col items-start">
+            <div className="leading-[80px] flex flex-col items-start">
               <p className="text-sm font-semibold ">
                 {user?.firstName ?? user?.name}
               </p>
@@ -53,22 +53,22 @@ function MenuList({ user, onClick }) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <MenuItems className="absolute z-50 right-2 mt-2 w-56 origin-top-right divide-y dividfe-gray-100 rounded-md bg-white shadow-lg focus:outline-none ">
+          <MenuItems className="absolute z-50 right-2 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg focus:outline-none ">
             <div className="p-1 ">
               <MenuItem>
-                {(active) => (
+                {({ isActive }) => (
                   <Link
                     to={`${
                       user?.accountType ? "user-profile" : "company-profile"
                     }`}
                     className={`${
-                      active ? "bg-blue-500 text-white" : "text-gray-900"
+                      isActive ? "bg-blue-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md p-2 text-sm`}
                     onClick={onClick}
                   >
                     <CgProfile
                       className={`${
-                        active ? "text-white" : "text-gray-600"
+                        isActive ? "text-white" : "text-gray-600"
                       } mr-2 h-5 w-5  `}
                       aria-hidden="true"
                     />
@@ -78,16 +78,16 @@ function MenuList({ user, onClick }) {
               </MenuItem>
 
               <MenuItem>
-                {(active) => (
+                {({ isActive  }) => (
                   <button
                     onClick={() => handleLogout()}
                     className={`${
-                      active ? "bg-blue-500 text-white" : "text-gray-900"
+                      isActive  ? "bg-blue-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     <AiOutlineLogout
                       className={`${
-                        active ? "text-white" : "text-gray-600"
+                        isActive  ? "text-white" : "text-gray-600"
                       } mr-2 h-5 w-5  `}
                       aria-hidden="true"
                     />
