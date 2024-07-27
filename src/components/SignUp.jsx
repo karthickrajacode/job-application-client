@@ -1,10 +1,18 @@
 import React, { Fragment, useState } from "react";
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import TextInput from "./TextInput";
 import CustomButton from "./CustomButton";
+import { apiRequest } from "../utils";
+import {Login} from "../redux/userSlice.js"
 
 const SignUp = ({ open, setOpen }) => {
   const dispatch = useDispatch();
@@ -27,7 +35,41 @@ const SignUp = ({ open, setOpen }) => {
 
   const closeModal = () => setOpen(false);
 
-  const onSubmit = () => {};
+  const onSubmit = async (data) => {
+    let URL = null;
+
+    if (isRegister) {
+      if (accountType === "seeker") {
+        URL = "auth/register";
+      } else URL = "companies/register";
+    } else {
+      if (accountType === "seeker") {
+        URL = "auth/login";
+      } else {
+        URL = "companies/login";
+      }
+    }
+
+    try {
+      const res = await apiRequest({
+        url: URL,
+        data: data,
+        method: "POST",
+      });
+
+      if (res?.status === "failed") {
+        setErrMsg(res?.message);
+      } else {
+        setErrMsg("");
+        const data = { token: res?.token, ...res?.user };
+        dispatch(Login(data));
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        window.location.replace(from);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
