@@ -220,7 +220,7 @@ const CompanyProfile = () => {
 
     try {
       const res = await apiRequest({
-        url: "/companies/get-company" + id,
+        url: "/companies/get-company/" + id,
         method: "GET",
       });
 
