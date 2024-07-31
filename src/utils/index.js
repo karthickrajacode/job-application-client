@@ -20,8 +20,8 @@ export const apiRequest = async ({ url, token, data, method }) => {
     return result?.data;
   } catch (error) {
     const err = error.response.data;
-    console.log(error);
-    return { status: err.success, message: err.message };
+    console.log(err);
+     return { status: err.success, message: err.message };
   }
 };
 
@@ -32,7 +32,7 @@ export const handleFileUpload = async (uploadFile) => {
 
   try {
     const response = await axios.post(
-      "https://api.cloudinary.com/v1_1/cloudName/image/upload/",
+      "https://api.cloudinary.com/v1_1/dy7cmzym1/image/upload/",
       formData
     );
     return response.data.secure_url;
@@ -41,45 +41,44 @@ export const handleFileUpload = async (uploadFile) => {
   }
 };
 
+export const updateURL = (
+  pageNum,
+  query,
+  cmpLoc,
+  sort,
+  navigate,
+  location,
+  jType,
+  exp
+) => {
+  const params = new URLSearchParams();
 
-export const updateURL =(
-    pageNum,
-    query,
-    cmpLoc,
-    sort,
-    navigate,
-    location,
-    jType,
-    exp,
-)=>{
-    const params = new URLSearchParams();
+  if (pageNum && pageNum > 1) {
+    params.set("page", pageNum);
+  }
 
-    if(pageNum && pageNum > 1){
-        params.set("page",pageNum);
-    }
+  if (query) {
+    params.set("search", query);
+  }
 
-    if(query){
-        params.set("search",query);
-    }
+  if (cmpLoc) {
+    params.set("location", cmpLoc);
+  }
 
-    if(cmpLoc){
-        params.set("location",cmpLoc);
-    }
+  if (sort) {
+    params.set("sort", sort);
+  }
 
-    if(sort){
-        params.set("sort",sort);
-    }
- 
-    if(jType){
-        params.set("jtype",jType);
-    }
-    
-    if(exp){
-        params.set("exp",exp);
-    }
+  if (jType) {
+    params.set("jtype", jType);
+  }
 
-    const newURL = `${location.pathName} ? ${params.toString()}`;
-    navigate(newURL,{replace:true});
+  if (exp) {
+    params.set("exp", exp);
+  }
 
-    return newURL;
+  const newURL = `${location.pathName} ? ${params.toString()}`;
+  navigate(newURL, { replace: true });
+
+  return newURL;
 };
