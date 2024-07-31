@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { dispatch } from "./store";
 import { users } from "../utils/data";
 
 const initialState = {
