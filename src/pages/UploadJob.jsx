@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { CustomButton, JobCard, JobTypes, TextInput } from "../components";
-import { jobs } from "../utils/data";
+import { CustomButton, JobCard, JobTypes, Loading, TextInput } from "../components";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../utils";
 
