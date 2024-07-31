@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import TextInput from "./TextInput";
 import CustomButton from "./CustomButton";
 import { apiRequest } from "../utils";
-import {Login} from "../redux/userSlice.js"
+import { Login } from "../redux/userSlice.js";
 
 const SignUp = ({ open, setOpen }) => {
   const dispatch = useDispatch();
@@ -41,7 +41,9 @@ const SignUp = ({ open, setOpen }) => {
     if (isRegister) {
       if (accountType === "seeker") {
         URL = "auth/register";
-      } else URL = "companies/register";
+      } else {
+        URL = "companies/register";
+      }
     } else {
       if (accountType === "seeker") {
         URL = "auth/login";
