@@ -18,7 +18,6 @@ const UploadJob = () => {
   });
 
   const [errMsg, setErrMsg] = useState("");
-  const [jobTitle, setJobTitle] = useState("Full-Time");
   const [jobType, setJobType] = useState("Full-Time");
   const [isLoading, setIsLoading] = useState(false);
   const [recentPost, setRecentPost] = useState([]);
