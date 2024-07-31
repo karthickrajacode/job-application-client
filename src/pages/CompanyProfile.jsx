@@ -13,8 +13,8 @@ import {
 import { FiEdit3, FiPhoneCall, FiUpload } from "react-icons/fi";
 import { HiLocationMarker } from "react-icons/hi";
 import { AiOutlineMail } from "react-icons/ai";
-import { companies, jobs } from "../utils/data";
 import { apiRequest, handleFileUpload } from "../utils";
+import { Login } from "../redux/userSlice.js";
 
 const CompanyForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
