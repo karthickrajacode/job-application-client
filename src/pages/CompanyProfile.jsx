@@ -48,7 +48,7 @@ const CompanyForm = ({ open, setOpen }) => {
         url: "/companies/update-company",
         token: user?.token,
         data: newData,
-        mathod: "PUT",
+        method: "PUT",
       });
       setIsLoading(false);
 
