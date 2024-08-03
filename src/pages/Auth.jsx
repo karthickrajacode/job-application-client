@@ -20,7 +20,7 @@ const Auth = () => {
     <div className="w-full">
       <img src={Office} alt="office" className="object-contain" />
 
-      <SignUp open={open} setOpen={setOpen} />
+      <SignUp open={open} setopen={setOpen} />
     </div>
   );
 };
