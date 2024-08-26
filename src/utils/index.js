@@ -21,7 +21,7 @@ export const apiRequest = async ({ url, token, data, method }) => {
   } catch (error) {
     const err = error.response.data;
     console.log(err);
-     return { status: err.success, message: err.message };
+    return { status: err.success, message: err.message };
   }
 };
 
@@ -41,7 +41,7 @@ export const handleFileUpload = async (uploadFile) => {
   }
 };
 
-export const updateURL = (
+export const updateURL = ({
   pageNum,
   query,
   cmpLoc,
@@ -49,8 +49,8 @@ export const updateURL = (
   navigate,
   location,
   jType,
-  exp
-) => {
+  exp,
+}) => {
   const params = new URLSearchParams();
 
   if (pageNum && pageNum > 1) {
@@ -77,7 +77,7 @@ export const updateURL = (
     params.set("exp", exp);
   }
 
-  const newURL = `${location.pathName} ? ${params.toString()}`;
+  const newURL = `${location.pathname}?${params.toString()}`;
   navigate(newURL, { replace: true });
 
   return newURL;
