@@ -13,7 +13,8 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FiPhoneCall } from "react-icons/fi";
 import { CustomButton, Loading, TextInput } from "../components";
 import { NoProfile } from "../assets";
-import { apiRequest } from "../utils";
+import { apiRequest, handleFileUpload } from "../utils";
+import { Login } from "../redux/userSlice";
 
 const UserForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
@@ -49,7 +50,7 @@ const UserForm = ({ open, setOpen }) => {
       if (res) {
         const newData = { token: res?.token, ...res?.user };
         dispatch(Login(newData));
-        localStorage.setItem("userInfo", JSON.stringify(res));
+        localStorage.setItem("userInfo", JSON.stringify(data));
         window.location.reload();
       }
       setIsSubmitting(false);
