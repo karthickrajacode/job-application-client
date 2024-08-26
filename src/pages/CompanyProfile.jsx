@@ -13,7 +13,8 @@ import {
 import { FiEdit3, FiPhoneCall, FiUpload } from "react-icons/fi";
 import { HiLocationMarker } from "react-icons/hi";
 import { AiOutlineMail } from "react-icons/ai";
-import { companies, jobs } from "../utils/data";
+import { apiRequest, handleFileUpload } from "../utils";
+import { Login } from "../redux/userSlice.js";
 
 const CompanyForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
@@ -25,14 +26,49 @@ const CompanyForm = ({ open, setOpen }) => {
     formState: { errors },
   } = useForm({
     node: "onChange",
-    defaultValues: { ...user?.user },
+    defaultValues: { ...user },
   });
 
   const dispatch = useDispatch();
   const [profileImage, setProfileImage] = useState("");
   const [uploadCv, setUploadCv] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState({ status: false, message: "" });
 
-  const onSubmit = () => {};
+  const onSubmit = async (data) => {
+    setIsLoading(true);
+    setErrMsg(null);
+
+    const url = profileImage && (await handleFileUpload(profileImage));
+
+    const newData = url ? { ...data, profileUrl: url } : data;
+
+    try {
+      const res = await apiRequest({
+        url: "/companies/update-company",
+        token: user?.token,
+        data: newData,
+        method: "PUT",
+      });
+      setIsLoading(false);
+
+      if (res.status === "failed") {
+        setErrMsg({ ...res });
+      } else {
+        setErrMsg({ status: "success", message: res.message });
+        const newData = { token: res?.token, ...res?.user };
+        dispatch(Login(newData));
+        localStorage.setItem("userInfo", JSON.stringify(data));
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      }
+    } catch (error) {
+      console.log(error);
+      setErrMsg(false);
+    }
+  };
 
   const closeModal = () => setOpen(false);
 
@@ -145,11 +181,15 @@ const CompanyForm = ({ open, setOpen }) => {
                     </div>
 
                     <div className="mt-4">
-                      <CustomButton
-                        type="submit"
-                        containerStyles="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none "
-                        title={"Submit"}
-                      />
+                      {isLoading ? (
+                        <Loading />
+                      ) : (
+                        <CustomButton
+                          type="submit"
+                          containerStyles="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none "
+                          title={"Submit"}
+                        />
+                      )}
                     </div>
                   </form>
                 </DialogPanel>
@@ -169,8 +209,30 @@ const CompanyProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [openForm, setOpenForm] = useState(false);
 
+  const fetchCompany = async () => {
+    setIsLoading(true);
+    let id = null;
+
+    if (params.id && params.id !== undefined) {
+      id = params?.id;
+    } else {
+      id = user?._id;
+    }
+
+    try {
+      const res = await apiRequest({
+        url: "/companies/get-company/" + id,
+        method: "GET",
+      });
+
+      setInfo(res?.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    setInfo(companies[parseInt(params?.id) - 1 ?? 0]);
+    fetchCompany();
     window.scrollTo({
       top: 0,
       left: 0,
@@ -190,25 +252,24 @@ const CompanyProfile = () => {
             Welcome,{info?.name}
           </h2>
 
-          {user?.user?.accountType === undefined &&
-            info?._id === user?.user?._id && (
-              <div className="flex items-center justify-center py-5 md:py-R gap-4">
-                <CustomButton
-                  title='Edit Profile'
-                  onClick={() => setOpenForm(true)}
-                  iconRight={<FiEdit3 />}
-                  containerStyles={`py-1.5 px-3 md:px-5 focus:outline-none bg-blue-600  hover:bg-blue-700 text-white rounded text-sm md:text-base border border-blue-600`}
-                />
+          {user?.user?.accountType === undefined && info?._id === user?._id && (
+            <div className="flex items-center justify-center py-5 md:py-R gap-4">
+              <CustomButton
+                title="Edit Profile"
+                onClick={() => setOpenForm(true)}
+                iconRight={<FiEdit3 />}
+                containerStyles={`py-1.5 px-3 md:px-5 focus:outline-none bg-blue-600  hover:bg-blue-700 text-white rounded text-sm md:text-base border border-blue-600`}
+              />
 
-                <Link to="/upload-job">
-                  <CustomButton
-                    title="Upload Job"
-                    iconRight={<FiUpload />}
-                    containerStyles={`text-blue-600 py-1.5 px-3 md:px-5 focus:outline-none  rounded text-sm md:text-base border border-blue-600`}
-                  />
-                </Link>
-              </div>
-            )}
+              <Link to="/upload-job">
+                <CustomButton
+                  title="Upload Job"
+                  iconRight={<FiUpload />}
+                  containerStyles={`text-blue-600 py-1.5 px-3 md:px-5 focus:outline-none  rounded text-sm md:text-base border border-blue-600`}
+                />
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="w-full flex flex-col md:flex-row justify-start md:justify-between mt-4 md:mt-8 text-sm">
@@ -233,16 +294,18 @@ const CompanyProfile = () => {
         <p>Jobs Posted</p>
 
         <div className="flex flex-wrap gap-3">
-          {jobs?.map((job, index) => {
+          {info?.jobPosts?.map((job, index) => {
             const data = {
               name: info?.name,
               email: info?.email,
+              logo: info?.profileUrl,
               ...job,
             };
             return <JobCard job={data} key={index} />;
           })}
         </div>
       </div>
+
       <CompanyForm open={openForm} setOpen={setOpenForm} />
     </div>
   );

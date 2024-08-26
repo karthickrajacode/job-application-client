@@ -13,10 +13,15 @@ import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import CustomButton from "./CustomButton.jsx";
 import { users } from "../utils/data.js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Logout } from "../redux/userSlice.js";
 
 function MenuList({ user, onClick }) {
-  const handleLogout = () => {};
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(Logout());
+    window.location.replace("/");
+  };
 
   return (
     <div>
@@ -78,16 +83,16 @@ function MenuList({ user, onClick }) {
               </MenuItem>
 
               <MenuItem>
-                {({ isActive  }) => (
+                {({ isActive }) => (
                   <button
                     onClick={() => handleLogout()}
                     className={`${
-                      isActive  ? "bg-blue-500 text-white" : "text-gray-900"
+                      isActive ? "bg-blue-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                   >
                     <AiOutlineLogout
                       className={`${
-                        isActive  ? "text-white" : "text-gray-600"
+                        isActive ? "text-white" : "text-gray-600"
                       } mr-2 h-5 w-5  `}
                       aria-hidden="true"
                     />
@@ -105,7 +110,6 @@ function MenuList({ user, onClick }) {
 const Navbar = () => {
   const { user } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
-
   const handleCloseNavbar = () => {
     setIsOpen((prev) => !prev);
   };
@@ -128,7 +132,15 @@ const Navbar = () => {
               <Link to="/companies">Companies</Link>
             </li>
             <li>
-              <Link to="/upload-job">Upload Job</Link>
+              <Link
+                to={
+                  user?.accountType === "seeker"
+                    ? "/applications"
+                    : "/upload-job"
+                }
+              >
+                {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
+              </Link>
             </li>
             <li>
               <Link to="/about-us">About</Link>
@@ -137,12 +149,12 @@ const Navbar = () => {
 
           <div className="hidden lg:block">
             {!user?.token ? (
-              <Link to="/user-auth">
+              <a href="/user-auth">
                 <CustomButton
                   title="Sign In"
                   containerStyles="text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600"
                 />
-              </Link>
+              </a>
             ) : (
               <div>
                 <MenuList user={user} />
@@ -173,7 +185,7 @@ const Navbar = () => {
           <Link
             onClick={handleCloseNavbar}
             to={
-              user?.accountType === "seeker" ? "applly-gistory" : "upload-job"
+              user?.accountType === "seeker" ? "applications" : "upload-job"
             }
           >
             {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
