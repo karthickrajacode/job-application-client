@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { useParams } from "react-router-dom";
-import { jobs } from "../utils/data";
 import { CustomButton, JobCard, Loading } from "../components";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../utils";
@@ -131,7 +130,7 @@ const JobDetail = () => {
               <div className="bg-[#cecdff] w-40 h-16 px-6 rounded-lg flex flex-col items-center justify-center">
                 <span className="text-sm">Yr. of Experience</span>
                 <p className="text-lg font-semibold text-gray-700">
-                  {job?.experience}
+                  {job?.experiences}
                 </p>
               </div>
             </div>
