@@ -29,7 +29,6 @@ const FindJobs = () => {
 
   const fetchJobs = async () => {
     setIsFetching(true);
-
     const newURL = updateURL({
       pageNum: page,
       query: searchQuery,
@@ -94,7 +93,7 @@ const FindJobs = () => {
 
       newExpVal?.sort((a, b) => a - b);
 
-      setFilterExp(`${newExpVal[0]}-${newExpVal[newExpVal]}`);
+      setFilterExp(`${newExpVal[0]}-${newExpVal[newExpVal.length - 1]}`);
     }
   }, [expVal]);
 
