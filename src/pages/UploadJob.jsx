@@ -65,7 +65,7 @@ const UploadJob = () => {
         url: "/companies/get-company/" + id,
         method: "GET",
       });
-      console.log(res?.data?.jobPosts);
+      //console.log(res?.data?.jobPosts);
       setRecentPost(res?.data?.jobPosts);
     } catch (error) {
       console.log(error);
