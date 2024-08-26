@@ -149,12 +149,12 @@ const Navbar = () => {
 
           <div className="hidden lg:block">
             {!user?.token ? (
-              <Link to="/user-auth">
+              <a href="/user-auth">
                 <CustomButton
                   title="Sign In"
                   containerStyles="text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600"
                 />
-              </Link>
+              </a>
             ) : (
               <div>
                 <MenuList user={user} />
@@ -185,7 +185,7 @@ const Navbar = () => {
           <Link
             onClick={handleCloseNavbar}
             to={
-              user?.accountType === "seeker" ? "applly-gistory" : "upload-job"
+              user?.accountType === "seeker" ? "applications" : "upload-job"
             }
           >
             {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
