@@ -6,6 +6,7 @@ import CompanyProfile from "./CompanyProfile.jsx";
 import UploadJob from "./UploadJob.jsx";
 import About from "./About.jsx";
 import JobDetail from "./JobDetail.jsx";
+import Applications from "./Applications.jsx";
 
 export {
     FindJobs,
@@ -16,4 +17,5 @@ export {
     UploadJob,
     About,
     JobDetail,
+    Applications
 };
