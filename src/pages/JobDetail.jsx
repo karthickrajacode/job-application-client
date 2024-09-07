@@ -16,6 +16,7 @@ const JobDetail = () => {
 
   const [selected, setSelected] = useState("0");
   const [isFetching, setIsFetching] = useState(false);
+  const [isApplied, setIsApplied] = useState(false);
 
   const getJobDetails = async () => {
     setIsFetching(true);
@@ -24,9 +25,47 @@ const JobDetail = () => {
         url: "/jobs/get-job-detail/" + id,
         method: "GET",
       });
+      const applications = res?.data.application;
+
+      // Check if jobSeeker ID matches logged-in user ID and set isApplied to true
+      const hasApplied = applications.some(
+        (application) => application.jobSeeker === user._id
+      );
+
+      setIsApplied(hasApplied);
+
+      console.log(hasApplied);
 
       setJob(res?.data);
       setSimilarJobs(res?.similarJobs);
+      setIsFetching(false);
+    } catch (error) {
+      setIsFetching(false);
+      console.log(error);
+    }
+  };
+
+  const handleApplyPost = async () => {
+    setIsFetching(true);
+    try {
+      const newData = {
+        jobSeekerId: user?._id,
+        jobPostingId: job?._id,
+        resume: {
+          url: user?.profileUrl,
+        },
+      };
+      const res = await apiRequest({
+        url: "/applications/create-application",
+        token: user?.token,
+        data: newData,
+        method: "POST",
+      });
+
+      if (res?.success) {
+        alert(res?.message);
+        window.location.replace("/applications/");
+      }
       setIsFetching(false);
     } catch (error) {
       setIsFetching(false);
@@ -55,6 +94,7 @@ const JobDetail = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     id && getJobDetails();
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -190,15 +230,21 @@ const JobDetail = () => {
             </div>
 
             <div className="w-full">
-              {user?._id === job?.company?._id ? (
+              {user?.accountType !== "seeker" ? (
                 <CustomButton
                   title="Delete Post"
                   onClick={handleDeletePost}
                   containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
                 />
+              ) : isApplied ? (
+                <CustomButton
+                  title="Applied Already"
+                  containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
+                />
               ) : (
                 <CustomButton
                   title="Apply Now"
+                  onClick={handleApplyPost}
                   containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
                 />
               )}
