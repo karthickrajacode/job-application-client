@@ -3,6 +3,7 @@ import { Outlet, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Footer, Navbar } from "./components";
 import {
   About,
+  Applications,
   AuthPage,
   Companies,
   CompanyProfile,
@@ -50,6 +51,7 @@ function App() {
           <Route path={"/company-profile"} element={<CompanyProfile />} />
           <Route path={"/company-profile/:id"} element={<CompanyProfile />} />
           <Route path={"/upload-job"} element={<UploadJob />} />
+          <Route path={"/applications"} element={<Applications />} />
           <Route path={"/job-detail/:id"} element={<JobDetail />} />
         </Route>
 
