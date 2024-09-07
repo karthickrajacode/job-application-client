@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import {
   Listbox,
   ListboxButton,
@@ -40,11 +40,7 @@ const ListBox = ({ sort, setSort }) => {
               {options.map((option, index) => (
                 <ListboxOption
                   key={index}
-                  className={(active) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? "bg-[#1d4fd830] text-[#1d4ed8]" : "text-gray-900"
-                    }`
-                  }
+                  className="relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900"
                   value={option}
                 >
                   {({ selected }) => (
