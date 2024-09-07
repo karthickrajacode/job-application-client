@@ -9,6 +9,7 @@ import ListBox from "./ListBox.jsx";
 import Loading from "./Loading.jsx";
 import CompanyCard from "./CompanyCard.jsx";
 import JobTypes from "./JobTypes.jsx";
+import ApplicationCard from "./ApplicationCard.jsx"
 
 export {
   Navbar,
@@ -22,4 +23,5 @@ export {
   Loading,
   CompanyCard,
   JobTypes,
+  ApplicationCard
 };
